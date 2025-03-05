@@ -27,7 +27,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     headers: { Authorization: `Bearer ${token}` },
                 })
                 .then((res) => setUser(res.data.user))
-                .catch(() => localStorage.removeItem("token"));
+                .catch(() => logout());
+        } else {
+            logout();
         }
     }, []);
 
