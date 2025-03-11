@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { User } from "../types/types";
-import { AuthContextType } from "../types/types"
+import { User, LoginCredentials, AuthContextType, AuthResponse } from "../types/types";
 import axios from "axios";
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -24,8 +23,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, []);
 
-    const login = async (username: string, password: string) => {
-        const res = await axios.post(`${API_URL}/auth/login`, { username, password });
+    const login = async (credentials: LoginCredentials) => {
+        const res = await axios.post<AuthResponse>(`${API_URL}/auth/login`, credentials);
         localStorage.setItem("token", res.data.token);
         setUser(res.data.user);
     };

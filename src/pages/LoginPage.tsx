@@ -12,7 +12,7 @@ const LoginPage = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await login(username, password);
+            await login({ username, password });
             navigate("/profile");
         } catch (err: any) {
             setError(err.response?.data?.message || "Inloggning misslyckades");

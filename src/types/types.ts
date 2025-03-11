@@ -13,6 +13,16 @@ export interface User {
 
 export interface AuthContextType {
     user: User | null;
-    login: (username: string, password: string) => Promise<void>;
+    login: (credentials: LoginCredentials) => Promise<void>;
     logout: () => void;
+}
+
+export interface LoginCredentials {
+    username: string;
+    password: string;
+}
+
+export interface AuthResponse {
+    user: User;
+    token: string;
 }
