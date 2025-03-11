@@ -1,16 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { User } from "../types/types";
+import { AuthContextType } from "../types/types"
 import axios from "axios";
-
-interface User {
-    id: string;
-    username: string;
-}
-
-interface AuthContextType {
-    user: User | null;
-    login: (username: string, password: string) => Promise<void>;
-    logout: () => void;
-}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

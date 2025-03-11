@@ -15,8 +15,14 @@ const Header = () => {
             <nav>
                 <ul>
                     <li><NavLink to="/">Startsida</NavLink></li>
-                    <li><NavLink to="/login">Logga in</NavLink></li>
-                    <li><NavLink to="/register">Registera</NavLink></li>
+                    {!user && (
+                        <>
+                            <li><NavLink to="/login">Logga in</NavLink></li>
+                            <li><NavLink to="/register">Registera</NavLink></li>
+                        </>
+                    )}
+
+
 
                     {user && (
                         <>
