@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
     const [query, setQuery] = useState("");
     const [books, setBooks] = useState<any[]>([]);
+    const [hasSearched, setHasSearched] = useState(false);
 
-    const handleSearch = async () => {
+    const handleSearch = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault();
         if (query.trim() === "") return;
+
+        setHasSearched(true);
         const results = await searchBooks(query);
         setBooks(results);
     };
@@ -15,13 +19,15 @@ const HomePage = () => {
     return (
         <div>
             <h1>Sök efter böcker</h1>
-            <input
-                type="text"
-                placeholder="Skriv in en boktitel..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-            />
-            <button onClick={handleSearch}>Sök</button>
+            <form onSubmit={handleSearch}>
+                <input
+                    type="text"
+                    placeholder="Skriv in en boktitel..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+                <button type="submit">Sök</button>
+            </form>
 
             <div>
                 {books.length > 0 ? (
@@ -33,7 +39,7 @@ const HomePage = () => {
                         </div>
                     ))
                 ) : (
-                    <p>Inga resultat</p>
+                    hasSearched && <p>Inga resultat</p>
                 )}
             </div>
         </div>

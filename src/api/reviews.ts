@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Review } from "../types/types"
 
 const API_URL = "http://localhost:5000/api/reviews";
 
@@ -49,4 +50,11 @@ export const updateReview = async (reviewId: string, reviewText: string, rating:
         console.error("Kunde inte uppdatera recension:", error);
         throw error;
     }
+};
+
+export const getUserReviews = async (token: string): Promise<Review[]> => {
+    const res = await axios.get(`${API_URL}/user`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
 };

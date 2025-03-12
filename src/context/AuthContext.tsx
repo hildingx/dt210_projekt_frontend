@@ -9,18 +9,23 @@ const API_URL = "http://localhost:5000/api";
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
+    const fetchUser = async () => {
         const token = localStorage.getItem("token");
         if (token) {
-            axios
-                .get(`${API_URL}/auth/validate`, {
+            try {
+                const res = await axios.get(`${API_URL}/auth/validate`, {
                     headers: { Authorization: `Bearer ${token}` },
-                })
-                .then((res) => setUser(res.data.user))
-                .catch(() => logout());
-        } else {
-            logout();
+                });
+                setUser(res.data.user);
+            } catch (error) {
+                console.error("Kunde inte validera token:", error);
+                logout();
+            }
         }
+    };
+
+    useEffect(() => {
+        fetchUser();
     }, []);
 
     const login = async (credentials: LoginCredentials) => {
