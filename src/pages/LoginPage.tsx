@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!username || !password) {
+            setError("Användarnamn och lösenord krävs");
+            return;
+        }
+
         try {
             await login({ username, password });
             navigate("/profile");
@@ -20,9 +28,9 @@ const LoginPage = () => {
     };
 
     return (
-        <div>
-            <h2>Logga in</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+        <div className="form">
+            <h1>Logga in</h1>
+            {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleLogin}>
                 <input
                     type="text"
@@ -38,6 +46,10 @@ const LoginPage = () => {
                 />
                 <button type="submit">Logga in</button>
             </form>
+
+            <p className="register-link">
+                Inget konto? <NavLink to="/register">Registrera dig här</NavLink>
+            </p>
         </div>
     );
 };

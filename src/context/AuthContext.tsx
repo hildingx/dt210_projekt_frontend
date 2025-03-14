@@ -8,6 +8,7 @@ const API_URL = "http://localhost:5000/api";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const fetchUser = async () => {
         const token = localStorage.getItem("token");
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 logout();
             }
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -39,7 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
     };
 
-    return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ user, login, logout, loading }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

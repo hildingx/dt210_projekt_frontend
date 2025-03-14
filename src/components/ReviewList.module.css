@@ -1,0 +1,59 @@
+.reviewContainer {
+    margin-top: 20px;
+}
+
+.reviewCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.reviewUser {
+    font-weight: bold;
+    color: #333;
+}
+
+.reviewRating {
+    color: #ffc107;
+}
+
+.reviewText {
+    margin: 10px 0;
+}
+
+.reviewDate {
+    font-size: 12px;
+    color: #666;
+}
+
+.buttonContainer {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.reviewButton {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.reviewButton:hover {
+    background: #0056b3;
+}
+
+.deleteButton {
+    background: #dc3545;
+}
+
+.deleteButton:hover {
+    background: #a71d2a;
+}

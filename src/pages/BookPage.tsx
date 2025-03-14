@@ -7,11 +7,14 @@ import ReviewList from "../components/ReviewList";
 import ReviewForm from "../components/ReviewForm";
 import EditReviewForm from "../components/EditReviewForm";
 import { Review } from "../types/types";
+import styles from "./BookPage.module.css";
 
 const BookPage = () => {
     const { id } = useParams<{ id: string }>();
     const [book, setBook] = useState<any>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [loadingBook, setLoadingBook] = useState(true);
+    const [loadingReviews, setLoadingReviews] = useState(true);
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState(5);
     const [editingReview, setEditingReview] = useState<Review | null>(null);
@@ -26,13 +29,17 @@ const BookPage = () => {
 
     useEffect(() => {
         const fetchBook = async () => {
+            setLoadingBook(true);
             const data = await getBookById(id!);
             setBook(data);
+            setLoadingBook(false);
         };
 
         const fetchReviews = async () => {
+            setLoadingReviews(true);
             const data = await getReviews(id!);
             setReviews(data);
+            setLoadingReviews(false);
         };
 
         fetchBook();
@@ -86,7 +93,8 @@ const BookPage = () => {
         }
     };
 
-    if (!book) return <p>Laddar...</p>;
+    if (loadingBook) return <p className={styles.loading}>Laddar bokinformation...</p>;
+    if (!book || !book.volumeInfo) return <p className={styles.error}>Kunde inte ladda boken.</p>;
 
     const handleEditReview = (review: Review) => {
         setEditingReview(review);
@@ -95,14 +103,26 @@ const BookPage = () => {
     };
 
     return (
-        <div>
-            <h1>{book.volumeInfo.title}</h1>
-            <h3>{book.volumeInfo.authors?.join(", ")}</h3>
-            <p>{cleanHtml(book.volumeInfo.description)}</p>
-            {book.volumeInfo.imageLinks?.thumbnail && (
-                <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+        <div className={styles.bookContainer}>
+            <div className={styles.bookDetails}>
+                {book.volumeInfo.imageLinks?.thumbnail && (
+                    <img src={book.volumeInfo.imageLinks.medium} alt={book.volumeInfo.title} className={styles.bookImage} />
+                )}
+                <div className={styles.bookInfo}>
+                    <h1>{book.volumeInfo.title}</h1>
+                    <h3>{book.volumeInfo.authors?.join(", ")}</h3>
+                    <p>{cleanHtml(book.volumeInfo.description)}</p>
+                </div>
+            </div>
+            <h2>Recensioner</h2>
+            {loadingReviews ? (
+                <p className={styles.loading}>Laddar recensioner...</p>
+            ) : (
+                <ReviewList reviews={reviews} onEdit={handleEditReview} onDelete={handleDeleteReview} />
             )}
-            <ReviewList reviews={reviews} onEdit={handleEditReview} onDelete={handleDeleteReview} />
+
+            <hr />
+
             {editingReview ? (
                 <EditReviewForm editText={editText} setEditText={setEditText} editRating={editRating} setEditRating={setEditRating} onSave={handleSaveEdit} onCancel={() => setEditingReview(null)} />
             ) : (

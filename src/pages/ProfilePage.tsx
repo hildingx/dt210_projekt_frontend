@@ -3,7 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import { getUserReviews, deleteReview, updateReview } from "../api/reviews";
 import { getBookById } from "../api/googleBooks";
 import { Review } from "../types/types";
+import ReviewList from "../components/ReviewList";
 import EditReviewForm from "../components/EditReviewForm";
+import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
     const { user } = useAuth();
@@ -85,25 +87,16 @@ const ProfilePage = () => {
     };
 
     return (
-        <div>
-            <h1>Profil</h1>
-            <h2>Välkommen, {user?.username}!</h2>
+        <div className={styles.profileContainer}>
+            <h1>Välkommen, {user?.username}!</h1>
 
-            <h3>Dina recensioner</h3>
-            {reviews.length > 0 ? (
-                reviews.map((review) => (
-                    <div key={review._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0" }}>
-                        <p><strong>Bok:</strong> {bookTitles[review.bookId] || "Laddar titel..."}</p>
-                        <p><strong>Betyg:</strong> {review.rating} stjärnor</p>
-                        <p>{review.reviewText}</p>
-                        <p><small>{new Date(review.createdAt).toLocaleDateString()}</small></p>
-                        <button onClick={() => handleEditReview(review)}>Redigera</button>
-                        <button onClick={() => handleDeleteReview(review._id)}>Ta bort</button>
-                    </div>
-                ))
-            ) : (
-                <p>Du har inte skrivit några recensioner ännu.</p>
-            )}
+            <h2>Dina recensioner</h2>
+            <ReviewList
+                reviews={reviews}
+                onEdit={handleEditReview}
+                onDelete={handleDeleteReview}
+                bookTitles={bookTitles}
+            />
 
             {editingReview && (
                 <EditReviewForm

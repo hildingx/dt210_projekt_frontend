@@ -1,0 +1,19 @@
+.profileContainer {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.profileContainer h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.profileContainer h2 {
+    font-size: 20px;
+}
+
+.reviewContainer {
+    margin-top: 20px;
+}

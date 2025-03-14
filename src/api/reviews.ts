@@ -1,10 +1,14 @@
+// Hanterar API-anrop för recensioner med Axios
+
 import axios from "axios";
 import { Review } from "../types/types"
 
 const API_URL = "http://localhost:5000/api/reviews";
 
+// Hämta alla recensioner för en specifik bok med det unika ID't för boken
 export const getReviews = async (bookId: string) => {
     try {
+        // GET-förfrågan för att hämta recensioner kopplade till bokID't
         const res = await axios.get(`${API_URL}/${bookId}`);
         return res.data;
     } catch (error) {
@@ -13,12 +17,14 @@ export const getReviews = async (bookId: string) => {
     }
 };
 
+// Lägg till ny recension för en bok
 export const addReview = async (bookId: string, reviewText: string, rating: number, token: string) => {
     try {
+        // POST-förfrågan för att skapa en ny recension
         const res = await axios.post(
             API_URL,
             { bookId, reviewText, rating },
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` } } // Inkluderar JWT-token i headern
         );
         return res.data;
     } catch (error) {
