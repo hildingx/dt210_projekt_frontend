@@ -33,6 +33,7 @@ export const addReview = async (bookId: string, reviewText: string, rating: numb
     }
 };
 
+// Ta bort recension
 export const deleteReview = async (reviewId: string, token: string) => {
     try {
         await axios.delete(`${API_URL}/${reviewId}`, {
@@ -44,6 +45,8 @@ export const deleteReview = async (reviewId: string, token: string) => {
     }
 };
 
+
+// Uppdatera recension
 export const updateReview = async (reviewId: string, reviewText: string, rating: number, token: string) => {
     try {
         const res = await axios.put(
@@ -58,9 +61,16 @@ export const updateReview = async (reviewId: string, reviewText: string, rating:
     }
 };
 
+// Hämta alla recensioner från specifik användare
 export const getUserReviews = async (token: string): Promise<Review[]> => {
-    const res = await axios.get(`${API_URL}/user`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.data;
+    try {
+        const res = await axios.get(`${API_URL}/user`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Kunde inte hämta användarens recensioner:", error);
+        return [];
+    }
 };
+

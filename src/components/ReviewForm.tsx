@@ -1,3 +1,4 @@
+// Definiera props som komponent tar emot
 interface Props {
     reviewText: string;
     setReviewText: (text: string) => void;
@@ -6,9 +7,10 @@ interface Props {
     onSubmit: (e: React.FormEvent) => void;
 }
 
+// Komponent för att skriva recension och ge betyg 
 const ReviewForm = ({ reviewText, setReviewText, rating, setRating, onSubmit }: Props) => {
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}> {/* Skicka recension till backend (genom handleAddReview i BookPage) */}
             <h3>Skriv en recension</h3>
             <textarea
                 value={reviewText}

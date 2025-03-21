@@ -1,18 +1,39 @@
-import React, { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import React, { useState } from "react"; // Hooks för state
+import { useNavigate, NavLink } from "react-router-dom"; // Navigering
 import axios from "axios";
 
+// Hantera registering av ny användare
 const RegisterPage = () => {
+    // State för inmatningsfält och felmedd.
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // React router nav
     const API_URL = "http://localhost:5000/api";
 
+    // Hantera registering när forumlär skickas
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validering av input
+        if (!username.trim() || !password.trim()) {
+            setError("Ange ett användarnamn och lösenord för att registrera dig.");
+            return;
+        }
+
+        if (username.length < 3) {
+            setError("Användarnamnet måste vara minst 3 tecken långt.");
+            return;
+        }
+
+        if (password.length < 4) {
+            setError("Lösenordet måste vara minst 4 tecken långt.");
+            return;
+        }
+
         try {
+            // Skicka inloggningsuppgifter till API
             await axios.post(`${API_URL}/auth/register`, {
                 username,
                 password,
@@ -20,7 +41,7 @@ const RegisterPage = () => {
 
             alert("Ditt konto har registrerats. Du kan nu logga in.");
 
-            navigate("/login");
+            navigate("/login"); // Omdirigera till /login
         } catch (err: any) {
             setError(err.response?.data?.message || "Registrering misslyckades");
         }
@@ -29,7 +50,10 @@ const RegisterPage = () => {
     return (
         <div className="form">
             <h1>Registrera konto</h1>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {/* Visa ev felmeddelande */}
+            {error && <p className="error-message">{error}</p>}
+
+            {/* Registreringsformulär */}
             <form onSubmit={handleRegister}>
                 <input
                     type="text"

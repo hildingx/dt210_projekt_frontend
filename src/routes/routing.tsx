@@ -1,23 +1,26 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom"; // React router för nav
 import Layout from "../components/Layout";
-import HomePage from "../pages/HomePage";
-import BookPage from "../pages/BookPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import ProfilePage from "../pages/ProfilePage";
-import ProtectedRoute from "../components/ProtectedRoute";
+import HomePage from "../pages/HomePage"; // Startsida
+import BookPage from "../pages/BookPage"; // Enskild boksida, bokid
+import LoginPage from "../pages/LoginPage"; // Inloggningssida
+import RegisterPage from "../pages/RegisterPage"; // Registreringssida
+import ProfilePage from "../pages/ProfilePage"; // Profilsida
+import ProtectedRoute from "../components/ProtectedRoute"; // Skydd för vissa sidor
+import NotFoundPage from "../pages/NotFoundPage"; // 404 sida
 
+// Definiera alla routes
 const router = createBrowserRouter([
     {
+        // Layout omger alla sidor, innehåller header, footer och <outlet>
         path: "/",
         element: <Layout />,
-        children: [
+        children: [ // childrutter som laddas in i outlet
             {
                 index: true,
                 element: <HomePage />
             },
             {
-                path: "book/:id",
+                path: "book/:id", // Dynamisk route för specifik bok
                 element: <BookPage />
             },
             {
@@ -31,11 +34,12 @@ const router = createBrowserRouter([
             {
                 path: "profile",
                 element: (
-                    <ProtectedRoute>
+                    <ProtectedRoute> {/* Skyddad rutt */}
                         <ProfilePage />
                     </ProtectedRoute>
                 )
-            }
+            },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
 ]);

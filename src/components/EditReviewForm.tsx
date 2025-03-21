@@ -1,3 +1,4 @@
+// Definiera props som komponent tar emot
 interface Props {
     editText: string;
     setEditText: (text: string) => void;
@@ -7,8 +8,10 @@ interface Props {
     onCancel: () => void;
 }
 
+// Komponent för att redigera recension
 const EditReviewForm = ({ editText, setEditText, editRating, setEditRating, onSave, onCancel }: Props) => {
     return (
+        // Formulär för att redigera recension
         <form onSubmit={onSave}>
             <h3>Redigera recension</h3>
             <textarea
