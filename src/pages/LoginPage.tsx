@@ -5,9 +5,9 @@ import { useNavigate, NavLink } from "react-router-dom";
 // Hantera inloggning av användare
 const LoginPage = () => {
     // States för hantering av inloggningsuppgifter och felmedd.
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
 
     // Hämta loginfunktion från authContext
     const { login } = useAuth();

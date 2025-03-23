@@ -1,13 +1,16 @@
 import React, { useState } from "react"; // Hooks för state
 import { useNavigate, NavLink } from "react-router-dom"; // Navigering
 import axios from "axios";
+import { LoginCredentials } from "../types/types";
 
 // Hantera registering av ny användare
 const RegisterPage = () => {
     // State för inmatningsfält och felmedd.
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
+
+    const credentials: LoginCredentials = { username, password };
 
     const navigate = useNavigate(); // React router nav
     const API_URL = "http://localhost:5000/api";
@@ -34,10 +37,7 @@ const RegisterPage = () => {
 
         try {
             // Skicka inloggningsuppgifter till API
-            await axios.post(`${API_URL}/auth/register`, {
-                username,
-                password,
-            });
+            await axios.post<void>(`${API_URL}/auth/register`, credentials);
 
             alert("Ditt konto har registrerats. Du kan nu logga in.");
 
