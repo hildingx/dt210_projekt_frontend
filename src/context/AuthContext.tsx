@@ -5,7 +5,7 @@ import axios from "axios";
 // Global context för autentisering
 const AuthContext = createContext<AuthContextType | null>(null);
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://dt210g-projekt-backend-qh0z.onrender.com/api";
 
 // Komponent som hanterar autentisering 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {

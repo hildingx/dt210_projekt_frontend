@@ -13,7 +13,7 @@ const RegisterPage = () => {
     const credentials: LoginCredentials = { username, password };
 
     const navigate = useNavigate(); // React router nav
-    const API_URL = "http://localhost:5000/api";
+    const API_URL = "https://dt210g-projekt-backend-qh0z.onrender.com/api";
 
     // Hantera registering när forumlär skickas
     const handleRegister = async (e: React.FormEvent) => {

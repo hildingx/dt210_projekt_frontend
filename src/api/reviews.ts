@@ -3,7 +3,7 @@
 import axios from "axios";
 import { Review } from "../types/types"
 
-const API_URL = "http://localhost:5000/api/reviews";
+const API_URL = "https://dt210g-projekt-backend-qh0z.onrender.com/api/reviews";
 
 // Hämta alla recensioner för en specifik bok med det unika ID't för boken
 export const getReviews = async (bookId: string) => {
