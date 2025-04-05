@@ -78,7 +78,7 @@ const RegisterPage = () => {
                 Har du redan ett konto? <NavLink to="/login">Logga in här</NavLink>
             </p>
 
-            {isLoading && <p className="loading">Loggar in...</p>}
+            {isLoading && <p className="loading">Registrerar användare...</p>}
         </div>
     );
 };
