@@ -37,6 +37,12 @@ button.secondary:hover {
     background: #545b62;
 }
 
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 /* Formulär */
 form {
     background: white;
@@ -106,4 +112,10 @@ textarea:focus {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+.loading {
+    color: #333;
+    font-style: italic;
+    margin-top: 10px;
 }

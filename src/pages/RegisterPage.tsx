@@ -9,6 +9,7 @@ const RegisterPage = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const credentials: LoginCredentials = { username, password };
 
@@ -35,6 +36,8 @@ const RegisterPage = () => {
             return;
         }
 
+        setIsLoading(true); // Starta laddningsindikator
+
         try {
             // Skicka inloggningsuppgifter till API
             await axios.post<void>(`${API_URL}/auth/register`, credentials);
@@ -44,6 +47,8 @@ const RegisterPage = () => {
             navigate("/login"); // Omdirigera till /login
         } catch (err: any) {
             setError(err.response?.data?.message || "Registrering misslyckades");
+        } finally {
+            setIsLoading(false); // Avsluta laddningsindikator oavsett om det lyckas eller ej
         }
     };
 
@@ -72,6 +77,8 @@ const RegisterPage = () => {
             <p className="register-link">
                 Har du redan ett konto? <NavLink to="/login">Logga in här</NavLink>
             </p>
+
+            {isLoading && <p className="loading">Loggar in...</p>}
         </div>
     );
 };

@@ -8,6 +8,7 @@ const LoginPage = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
 
     // Hämta loginfunktion från authContext
     const { login } = useAuth();
@@ -23,11 +24,15 @@ const LoginPage = () => {
             return;
         }
 
+        setIsLoading(true); // Starta laddningsindikator
+
         try {
             await login({ username, password }); // Skicka inloggningsuppgifter till authcontext
             navigate("/profile"); // Vid lyckad inloggning skicka användare till /profile
         } catch (err: any) {
             setError(err.response?.data?.message || "Inloggning misslyckades");
+        } finally {
+            setIsLoading(false); // Avsluta laddningsindikator oavsett om det lyckas eller ej
         }
     };
 
@@ -51,12 +56,16 @@ const LoginPage = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Logga in</button>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? "Loggar in..." : "Logga in"}
+                </button>
             </form>
 
             <p className="register-link">
                 Inget konto? <NavLink to="/register">Registrera dig här</NavLink>
             </p>
+
+            {isLoading && <p className="loading">Loggar in...</p>}
         </div>
     );
 };
